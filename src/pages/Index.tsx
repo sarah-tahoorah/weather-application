@@ -16,7 +16,7 @@ interface WeatherData {
   windSpeed: number;
 }
 
-const API_KEY = import.meta.env.VITE_WEATHER_API_KEY || "";
+const API_KEY = import.meta.env.VITE_WEATHER_API_KEY || "90b80535c68b6089f0a7e0744e05da90";
 
 const Index = () => {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
