@@ -16,7 +16,7 @@ interface WeatherData {
   windSpeed: number;
 }
 
-const API_KEY = ""; // Add your OpenWeatherMap API key here
+const API_KEY = import.meta.env.VITE_WEATHER_API_KEY || "";
 
 const Index = () => {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
