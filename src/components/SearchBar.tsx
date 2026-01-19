@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { Search } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Search, Sparkles } from "lucide-react";
 
 interface SearchBarProps {
   onSearch: (city: string) => void;
@@ -10,6 +8,7 @@ interface SearchBarProps {
 
 const SearchBar = ({ onSearch, isLoading }: SearchBarProps) => {
   const [city, setCity] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,25 +19,33 @@ const SearchBar = ({ onSearch, isLoading }: SearchBarProps) => {
 
   return (
     <form onSubmit={handleSubmit} className="w-full animate-fade-in">
-      <div className="flex gap-3">
+      <div className={`flex gap-3 p-2 rounded-2xl transition-all duration-300 ${
+        isFocused ? 'bg-white/50 shadow-glow' : 'bg-transparent'
+      }`}>
         <div className="relative flex-1">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-          <Input
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-lg bg-primary/10">
+            <Search className="h-5 w-5 text-primary" />
+          </div>
+          <input
             type="text"
-            placeholder="Enter city name..."
+            placeholder="Search for a city..."
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            className="pl-12 h-14 text-lg rounded-2xl bg-white/80 backdrop-blur-sm border-border/50 shadow-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            className="w-full pl-16 pr-4 h-14 text-lg rounded-xl input-glass focus:outline-none text-foreground placeholder:text-muted-foreground font-medium"
             disabled={isLoading}
           />
         </div>
-        <Button 
+        <button 
           type="submit" 
           disabled={isLoading || !city.trim()}
-          className="h-14 px-8 rounded-2xl text-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5"
+          className="h-14 px-8 rounded-xl text-lg font-semibold btn-gradient text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2"
         >
-          Get Weather
-        </Button>
+          <Sparkles className="h-5 w-5" />
+          <span className="hidden sm:inline">Get Weather</span>
+          <span className="sm:hidden">Go</span>
+        </button>
       </div>
     </form>
   );

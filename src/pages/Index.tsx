@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CloudSun } from "lucide-react";
+import { CloudSun, Sparkles } from "lucide-react";
 import SearchBar from "@/components/SearchBar";
 import WeatherCard from "@/components/WeatherCard";
 import LoadingSpinner from "@/components/LoadingSpinner";
@@ -88,61 +88,80 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen py-8 px-4">
-      <div className="max-w-lg mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8 animate-fade-in">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-4">
-            <CloudSun className="h-8 w-8 text-primary" />
+    <>
+      {/* Aurora Background */}
+      <div className="aurora-bg" />
+      
+      <div className="min-h-screen py-10 px-4 relative">
+        <div className="max-w-lg mx-auto">
+          {/* Header */}
+          <div className="text-center mb-10 animate-fade-in">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 mb-6 animate-float shadow-glow">
+              <CloudSun className="h-10 w-10 text-primary" />
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-3">
+              <span className="text-gradient">Weather</span>
+              <span className="text-foreground"> Dashboard</span>
+            </h1>
+            <p className="text-muted-foreground font-medium flex items-center justify-center gap-2">
+              <Sparkles className="h-4 w-4 text-accent" />
+              Real-time weather & air quality data
+              <Sparkles className="h-4 w-4 text-accent" />
+            </p>
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
-            City Weather Dashboard
-          </h1>
-          <p className="text-muted-foreground">
-            Get real-time weather and air quality data
-          </p>
-        </div>
 
-        {/* Search */}
-        <div className="mb-8">
-          <SearchBar onSearch={fetchWeather} isLoading={isLoading} />
-        </div>
+          {/* Search */}
+          <div className="mb-10">
+            <SearchBar onSearch={fetchWeather} isLoading={isLoading} />
+          </div>
 
-        {/* Content */}
-        <div className="min-h-[300px]">
-          {isLoading && <LoadingSpinner />}
+          {/* Content */}
+          <div className="min-h-[300px]">
+            {isLoading && <LoadingSpinner />}
 
-          {error && !isLoading && (
-            <div className="glass-card rounded-2xl p-6 text-center animate-fade-in">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-destructive/10 flex items-center justify-center">
-                <span className="text-3xl">😕</span>
+            {error && !isLoading && (
+              <div className="glass-card-elevated rounded-2xl p-8 text-center animate-scale-in">
+                <div className="w-20 h-20 mx-auto mb-5 rounded-2xl bg-destructive/10 flex items-center justify-center">
+                  <span className="text-4xl">😕</span>
+                </div>
+                <p className="text-destructive font-semibold text-lg">{error}</p>
               </div>
-              <p className="text-destructive font-medium">{error}</p>
-            </div>
-          )}
+            )}
 
-          {weatherData && !isLoading && <WeatherCard data={weatherData} />}
+            {weatherData && !isLoading && <WeatherCard data={weatherData} />}
 
-          {!weatherData && !isLoading && !error && (
-            <div className="glass-card rounded-2xl p-8 text-center animate-fade-in">
-              <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center">
-                <CloudSun className="h-10 w-10 text-primary/60 animate-float" />
+            {!weatherData && !isLoading && !error && (
+              <div className="glass-card-elevated rounded-3xl p-10 text-center animate-scale-in">
+                <div className="w-24 h-24 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-primary/15 to-secondary/15 flex items-center justify-center animate-pulse-soft">
+                  <CloudSun className="h-12 w-12 text-primary" />
+                </div>
+                <p className="text-muted-foreground font-medium text-lg">
+                  Enter a city name to discover the weather
+                </p>
+                <div className="flex justify-center gap-2 mt-4">
+                  {['London', 'Tokyo', 'New York'].map((city) => (
+                    <button
+                      key={city}
+                      onClick={() => fetchWeather(city)}
+                      className="px-4 py-2 rounded-full text-sm font-medium bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+                    >
+                      {city}
+                    </button>
+                  ))}
+                </div>
               </div>
-              <p className="text-muted-foreground">
-                Enter a city name to see the current weather
-              </p>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
 
-        {/* Footer */}
-        <div className="mt-12 text-center">
-          <p className="text-xs text-muted-foreground">
-            Powered by OpenWeatherMap
-          </p>
+          {/* Footer */}
+          <div className="mt-14 text-center">
+            <p className="text-xs text-muted-foreground font-medium">
+              Powered by OpenWeatherMap ✨
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
